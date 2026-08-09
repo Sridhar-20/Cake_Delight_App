@@ -1,0 +1,74 @@
+services:
+
+  catalog-service:
+    build: ./catalog-service
+    ports:
+      - "5001:5001"
+    environment:
+      PORT: 5001
+      MONGODB_URI: mongodb://catalog-mongodb:27017/catalog_db
+      NODE_ENV: production
+    depends_on:
+      - catalog-mongodb
+    restart: unless-stopped
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "5002:5002"
+    environment:
+      PORT: 5002
+      MONGO_URI: mongodb://order-mongodb:27017/order_db
+      CATALOG_SERVICE_URL: http://catalog-service:5001
+      RABBITMQ_URL: amqp://rabbitmq:5672
+      EVENT_EXCHANGE: cake_delight_events
+    depends_on:
+      - order-mongodb
+      - catalog-service
+      - rabbitmq
+    restart: unless-stopped
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "5003:5003"
+    environment:
+      PORT: 5003
+      MONGODB_URI: mongodb://notification-mongodb:27017/cake_delight_notifications
+      RABBITMQ_URL: amqp://rabbitmq:5672
+      EVENT_EXCHANGE: cake_delight_events
+      NOTIFICATION_QUEUE: notification_service_queue
+    depends_on:
+      - notification-mongodb
+      - rabbitmq
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: unless-stopped
+
+  catalog-mongodb:
+    image: mongo:8
+    volumes:
+      - catalog_mongodb_data:/data/db
+    restart: unless-stopped
+
+  order-mongodb:
+    image: mongo:8
+    volumes:
+      - order_mongodb_data:/data/db
+    restart: unless-stopped
+
+  notification-mongodb:
+    image: mongo:8
+    volumes:
+      - notification_mongodb_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  catalog_mongodb_data:
+  order_mongodb_data:
+  notification_mongodb_data:

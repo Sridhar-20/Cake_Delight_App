@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cake Delight - Orders</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="header">
+
+    <div>
+
+        <h1>🎂 Cake Delight</h1>
+
+        <p>Order Management</p>
+
+    </div>
+
+
+    <div class="service-status">
+
+        <span id="statusDot"></span>
+
+        <span id="serviceStatus">
+            Checking service...
+        </span>
+
+    </div>
+
+</header>
+
+
+<div id="notificationPopupContainer" class="notification-popup-container"></div>
+
+<main class="container">
+
+
+    <!-- Customer & Basket -->
+<section class="card">
+
+    <h2>Customer & Basket</h2>
+
+    <!-- Customer Information -->
+    <div class="form-grid">
+
+        <div>
+            <label>Customer Name</label>
+
+            <input
+                type="text"
+                id="customerName"
+                placeholder="Sridhar"
+                required
+            >
+        </div>
+
+        <div>
+            <label>Customer Email</label>
+
+            <input
+                type="email"
+                id="customerEmail"
+                placeholder="sridhar@gmail.com"
+                required
+            >
+        </div>
+
+        <div>
+            <label>Customer Phone</label>
+
+            <input
+                type="text"
+                id="customerPhone"
+                placeholder="9876543210"
+                required
+            >
+        </div>
+
+        <div>
+            <label>Delivery Address</label>
+
+            <input
+                type="text"
+                id="deliveryAddress"
+                placeholder="Hyderabad"
+                required
+            >
+        </div>
+
+        <div>
+            <label>Payment Method</label>
+
+            <select id="paymentMethod">
+
+                <option value="COD">
+                    Cash on Delivery
+                </option>
+
+                <option value="ONLINE">
+                    Online Payment
+                </option>
+
+            </select>
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================================
+     BROWSE CAKES
+     ========================================================== -->
+
+    <h3 class="section-title">
+        Browse Cakes
+    </h3>
+
+    <p class="browse-description">
+        Choose your favorite cake and add it to your basket.
+    </p>
+
+    <!--
+        Hidden select kept for compatibility with the existing
+        addToBasket() function in app.js.
+    -->
+    <select
+        id="basketCakeSelect"
+        class="hidden-basket-select"
+    >
+        <option value="">
+            Loading cakes...
+        </option>
+    </select>
+
+    <!-- Hidden quantity used by existing addToBasket() -->
+    <input
+        type="hidden"
+        id="basketQuantity"
+        value="1"
+    >
+
+    <!-- Cake cards will be created here by app.js -->
+    <div
+        id="cakeCatalogContainer"
+        class="cake-catalog-grid"
+    >
+
+        <div class="cake-loading">
+            Loading cakes from Catalog Service...
+        </div>
+
+    </div>
+
+
+    <!-- Basket -->
+    <h3 class="section-title">
+        My Basket
+    </h3>
+
+    <div id="basketContainer">
+
+        <div class="basket-empty">
+            Enter customer email and load the basket.
+        </div>
+
+    </div>
+
+
+    <!-- Basket Actions -->
+    <div class="basket-actions">
+
+        <button
+            type="button"
+            onclick="loadBasket()"
+        >
+            Refresh Basket
+        </button>
+
+        <button
+            type="button"
+            onclick="clearBasket()"
+        >
+            Clear Basket
+        </button>
+
+    </div>
+
+
+    <!-- Basket Total -->
+    <div class="order-total">
+
+        <span>
+            Basket Total
+        </span>
+
+        <strong id="basketTotal">
+            ₹0
+        </strong>
+
+    </div>
+
+
+    <!-- Checkout -->
+    <button
+        type="button"
+        class="primary-btn checkout-btn"
+        onclick="checkout()"
+    >
+        Checkout & Create Order
+    </button>
+
+</section>
+
+
+
+    <!-- Order Search -->
+
+    <section class="card">
+
+        <h2>Search Orders</h2>
+
+
+        <div class="filter-grid">
+
+
+            <div>
+
+                <label>Order ID</label>
+
+
+                <div class="inline-input">
+
+                    <input
+                        type="text"
+                        id="orderIdSearch"
+                        placeholder="6a773cbcf0240e24a91ee059"
+                    >
+
+                    <button onclick="getOrderById()">
+                        Search
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <label>Order Status</label>
+
+
+                <div class="inline-input">
+
+                    <select id="statusFilter">
+
+                        <option value="">
+                            Select Status
+                        </option>
+
+                        <option value="PLACED">
+                            PLACED
+                        </option>
+
+                        <option value="CONFIRMED">
+                            CONFIRMED
+                        </option>
+
+                        <option value="PREPARING">
+                            PREPARING
+                        </option>
+
+                        <option value="OUT_FOR_DELIVERY">
+                            OUT FOR DELIVERY
+                        </option>
+
+                        <option value="DELIVERED">
+                            DELIVERED
+                        </option>
+
+                        <option value="CANCELLED">
+                            CANCELLED
+                        </option>
+
+                    </select>
+
+
+                    <button onclick="filterOrdersByStatus()">
+                        Filter
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="action-buttons">
+
+            <button onclick="getAllOrders()">
+                All Orders
+            </button>
+
+            <button onclick="loadCakes()">
+                Refresh Cakes
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Orders Table -->
+
+    <section class="card">
+
+
+        <div class="table-header">
+
+            <div>
+
+                <h2>Order List</h2>
+
+                <p id="resultCount">
+                    0 orders
+                </p>
+
+            </div>
+
+
+            <button onclick="getAllOrders()">
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Customer</th>
+
+                        <th>Phone</th>
+
+                        <th>Items</th>
+
+                        <th>Total</th>
+
+                        <th>Payment</th>
+
+                        <th>Status</th>
+
+                        <th>Created</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="orderTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- API Response -->
+
+    <section class="card">
+
+        <h2>API Response</h2>
+
+        <pre id="apiResponse">
+No API request made yet.
+        </pre>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- Order Details Modal -->
+
+<div
+    id="orderModal"
+    class="modal"
+>
+
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Order Details
+            </h2>
+
+
+            <button onclick="closeOrderModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <div id="orderDetails">
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- Status Modal -->
+
+<div
+    id="statusModal"
+    class="modal"
+>
+
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Update Order Status
+            </h2>
+
+
+            <button onclick="closeStatusModal()">
+                ×
+            </button>
+
+        </div>
+
+
+        <input
+            type="hidden"
+            id="statusOrderId"
+        >
+
+
+        <label>
+            New Status
+        </label>
+
+
+        <select id="newOrderStatus">
+
+            <option value="CONFIRMED">
+                CONFIRMED
+            </option>
+
+            <option value="PREPARING">
+                PREPARING
+            </option>
+
+            <option value="OUT_FOR_DELIVERY">
+                OUT FOR DELIVERY
+            </option>
+
+            <option value="DELIVERED">
+                DELIVERED
+            </option>
+
+        </select>
+
+
+        <button
+            class="primary-btn"
+            onclick="updateOrderStatus()"
+        >
+            Update Status
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>

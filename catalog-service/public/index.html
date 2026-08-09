@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cake Delight - Catalog</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div>
+            <h1>🎂 Cake Delight</h1>
+            <p>Catalog Management</p>
+        </div>
+
+        <div class="service-status">
+            <span id="statusDot"></span>
+            <span id="serviceStatus">Checking service...</span>
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <!-- Create Cake Section -->
+        <section class="card">
+
+            <h2>Create New Cake</h2>
+
+            <form id="createCakeForm">
+
+                <div class="form-grid">
+
+                    <div>
+                        <label>Cake Name</label>
+                        <input
+                            type="text"
+                            id="cakeName"
+                            placeholder="Chocolate Truffle Cake"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label>Category</label>
+                        <input
+                            type="text"
+                            id="cakeCategory"
+                            placeholder="Birthday"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label>Price</label>
+                        <input
+                            type="number"
+                            id="cakePrice"
+                            placeholder="850"
+                            min="1"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label>Stock</label>
+                        <input
+                            type="number"
+                            id="cakeStock"
+                            placeholder="20"
+                            min="0"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <label>Description</label>
+
+                <textarea
+                    id="cakeDescription"
+                    placeholder="Enter cake description"
+                    required
+                ></textarea>
+
+                <label>Image URL</label>
+
+                <input
+                    type="text"
+                    id="cakeImageUrl"
+                    placeholder="https://example.com/cake.jpg"
+                >
+
+                <label class="checkbox">
+                    <input
+                        type="checkbox"
+                        id="cakeAvailable"
+                        checked
+                    >
+                    Available
+                </label>
+
+                <button type="submit" class="primary-btn">
+                    Create Cake
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Search and Filters -->
+        <section class="card">
+
+            <h2>Search & Filter</h2>
+
+            <div class="filter-grid">
+
+                <div>
+                    <label>Search by Name</label>
+
+                    <div class="inline-input">
+                        <input
+                            type="text"
+                            id="searchName"
+                            placeholder="Chocolate"
+                        >
+
+                        <button onclick="searchCakes()">
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+
+                <div>
+                    <label>Category</label>
+
+                    <div class="inline-input">
+                        <input
+                            type="text"
+                            id="categoryFilter"
+                            placeholder="Birthday"
+                        >
+
+                        <button onclick="filterCategory()">
+                            Filter
+                        </button>
+                    </div>
+                </div>
+
+
+                <div>
+                    <label>Price Range</label>
+
+                    <div class="price-inputs">
+
+                        <input
+                            type="number"
+                            id="minPrice"
+                            placeholder="Min"
+                        >
+
+                        <input
+                            type="number"
+                            id="maxPrice"
+                            placeholder="Max"
+                        >
+
+                        <button onclick="filterPrice()">
+                            Filter
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="action-buttons">
+
+                <button onclick="getAllCakes()">
+                    All Cakes
+                </button>
+
+                <button onclick="getAvailableCakes()">
+                    Available Cakes
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Cake Table -->
+        <section class="card">
+
+            <div class="table-header">
+
+                <div>
+                    <h2>Cake Catalog</h2>
+                    <p id="resultCount">0 cakes</p>
+                </div>
+
+                <button onclick="getAllCakes()">
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Available</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="cakeTableBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- API Result -->
+        <section class="card">
+
+            <h2>API Response</h2>
+
+            <pre id="apiResponse">No API request made yet.</pre>
+
+        </section>
+
+    </main>
+
+
+    <!-- Edit Cake Modal -->
+    <div id="editModal" class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2>Edit Cake</h2>
+
+                <button onclick="closeEditModal()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="editCakeForm">
+
+                <input type="hidden" id="editCakeId">
+
+                <label>Name</label>
+
+                <input
+                    type="text"
+                    id="editCakeName"
+                    required
+                >
+
+
+                <label>Description</label>
+
+                <textarea
+                    id="editCakeDescription"
+                    required
+                ></textarea>
+
+
+                <label>Category</label>
+
+                <input
+                    type="text"
+                    id="editCakeCategory"
+                    required
+                >
+
+
+                <label>Price</label>
+
+                <input
+                    type="number"
+                    id="editCakePrice"
+                    min="1"
+                    required
+                >
+
+
+                <label>Stock</label>
+
+                <input
+                    type="number"
+                    id="editCakeStock"
+                    min="0"
+                    required
+                >
+
+
+                <label>Image URL</label>
+
+                <input
+                    type="text"
+                    id="editCakeImageUrl"
+                >
+
+
+                <label class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="editCakeAvailable"
+                    >
+
+                    Available
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Update Cake
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cake Delight - Notifications</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <header class="header">
+
+        <div class="brand">
+            🍰 Cake Delight
+        </div>
+
+        <div class="notification-badge">
+            🔔
+            <span id="unreadCount">0</span>
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <section class="hero">
+
+            <h1>In-App Notifications</h1>
+
+            <p>
+                View notifications related to your Cake Delight orders.
+            </p>
+
+        </section>
+
+
+        <section class="customer-section">
+
+            <label for="customerEmail">
+                Customer Email
+            </label>
+
+            <div class="search-row">
+
+                <input
+                    type="email"
+                    id="customerEmail"
+                    placeholder="Enter customer email"
+                    value="sridhar@gmail.com"
+                >
+
+                <button
+                    id="loadNotificationsBtn"
+                >
+                    Load Notifications
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <section class="notifications-section">
+
+            <div class="section-header">
+
+                <h2>Notifications</h2>
+
+                <button
+                    id="refreshBtn"
+                    class="secondary-btn"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div id="notificationsContainer">
+
+                <div class="empty-state">
+                    Enter a customer email and load notifications.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Popup container -->
+
+    <div
+        id="popupContainer"
+        class="popup-container"
+    ></div>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>
