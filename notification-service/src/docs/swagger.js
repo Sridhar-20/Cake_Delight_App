@@ -9,7 +9,7 @@ const options = {
             title: "Cake Delight - Notification Service API",
             version: "1.0.0",
             description:
-                "API documentation for the Cake Delight in-app Notification Service"
+                "API documentation for the Cake Delight in-app Notification Service. The service consumes order events from RabbitMQ and creates customer notifications for order creation, status updates, delivery, and cancellation."
         },
 
         servers: [

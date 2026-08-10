@@ -1,93 +1,98 @@
-# Cake Delight - Notification Service
+# 🔔 Cake Delight - Notification Service
 
-The Notification Service owns in-app order notifications.
+The **Notification Service** is a Node.js and Express-based microservice responsible for managing in-app customer notifications in the Cake Delight application.
 
-## Responsibility
+The service receives order-related events from the **Order Service** through **RabbitMQ**, creates notification records in MongoDB, and provides REST APIs for retrieving, reading, and deleting notifications.
 
-- Store notifications in MongoDB
-- Consume order events from RabbitMQ
-- Create notifications from order completion/status events
-- Retrieve customer notifications
+---
+
+## 🚀 Features
+
+### 🔔 Notification Management
+
+- Create notifications
+- Get all notifications
+- Get notification by ID
+- Get notifications by customer email
 - Mark notifications as read
 - Delete notifications
-- Expose Swagger documentation
-- Provide a simple notification testing UI
 
-## Event-driven flow
+### 📨 RabbitMQ Event Consumption
+
+The Notification Service acts as a **RabbitMQ consumer**.
+
+It listens for order events published by the Order Service.
+
+Supported events include:
+
+- `ORDER_PLACED`
+- `ORDER_CONFIRMED`
+- `ORDER_PREPARING`
+- `ORDER_OUT_FOR_DELIVERY`
+- `ORDER_DELIVERED`
+- `ORDER_CANCELLED`
+
+When an order event is received, the Notification Service creates a corresponding notification in MongoDB.
+
+---
+
+## 🏗️ Architecture
 
 ```text
+                     ┌──────────────────────┐
+                     │    Catalog Service   │
+                     │       Port 5001      │
+                     └──────────┬───────────┘
+                                │
+                                │
+                     ┌──────────▼───────────┐
+                     │     Order Service    │
+                     │       Port 5002      │
+                     └──────────┬───────────┘
+                                │
+                                │ RabbitMQ
+                                │ Order Events
+                                ▼
+                     ┌──────────────────────┐
+                     │ Notification Service │
+                     │       Port 5003      │
+                     └──────────┬───────────┘
+                                │
+                                ▼
+                           MongoDB
+                                │
+                                ▼
+                     ┌──────────────────────┐
+                     │  Notification UI    │
+                     └──────────────────────┘
+```
+
+---
+
+## 🔄 Notification Workflow
+
+### 1. Customer creates an order
+
+The customer creates an order through the Order Service.
+
+```text
+Customer
+   │
+   ▼
 Order Service
-     |
-     | ORDER_COMPLETED / ORDER_STATUS_UPDATED
-     v
+   │
+   ▼
+Order Created
+   │
+   ▼
 RabbitMQ
-     |
-     v
+   │
+   ▼
 Notification Service
-     |
-     v
+   │
+   ▼
+Create ORDER_PLACED Notification
+   │
+   ▼
 MongoDB
-     |
-     v
-Order UI polls notifications
-     |
-     v
-In-app popup
-```
-
-The Order Service does not directly call the Notification Service to create a notification.
-
-## APIs
-
-```text
-POST   /api/notifications
-GET    /api/notifications
-GET    /api/notifications/customer/{email}
-GET    /api/notifications/{id}
-PATCH  /api/notifications/{id}/read
-DELETE /api/notifications/{id}
-```
-
-`POST /api/notifications` remains available for direct API testing. Normal order notifications are created by RabbitMQ event consumption.
-
-## Environment
-
-```env
-PORT=5003
-MONGODB_URI=mongodb://localhost:27017/cake_delight_notifications
-RABBITMQ_URL=amqp://localhost:5672
-EVENT_EXCHANGE=cake_delight_events
-NOTIFICATION_QUEUE=notification_service_queue
-```
-
-## Run
-
-```bash
-npm install
-npm run dev
-```
-
-Service:
-
-```text
-http://localhost:5003
-```
-
-Swagger:
-
-```text
-http://localhost:5003/api-docs
-```
-
-## RabbitMQ
-
-RabbitMQ must be running for event-driven notifications.
-
-If RabbitMQ is unavailable, the Notification Service still starts and retries the broker connection every five seconds.
-
-## Docker
-
-```bash
-docker build -t cake-delight-notification-service .
-docker run -p 5003:5003 --env-file .env cake-delight-notification-service
 ```
