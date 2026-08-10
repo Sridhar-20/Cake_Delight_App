@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cake Delight</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <span class="brand-icon">🎂</span>
+
+            <div>
+
+                <h1>Cake Delight</h1>
+
+                <p>Fresh cakes, made with love.</p>
+
+            </div>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <button
+                class="nav-btn active"
+                onclick="showSection('home')"
+            >
+                Home
+            </button>
+
+            <button
+                class="nav-btn"
+                onclick="showSection('cakes')"
+            >
+                Browse Cakes
+            </button>
+
+            <button
+                class="nav-btn"
+                onclick="showSection('basket')"
+            >
+                🛒 Basket
+                <span id="basketCount">0</span>
+            </button>
+
+            <button
+                class="nav-btn"
+                onclick="showSection('orders')"
+            >
+                My Orders
+            </button>
+
+            <button
+                class="nav-btn"
+                onclick="showSection('notifications')"
+            >
+                🔔
+                <span id="notificationCount">0</span>
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN APPLICATION
+         ===================================================== -->
+
+    <main>
+
+
+        <!-- =================================================
+             HOME
+             ================================================= -->
+
+        <section
+            id="home"
+            class="page-section active-section"
+        >
+
+            <div class="hero">
+
+                <div class="hero-content">
+
+                    <p class="hero-label">
+                        WELCOME TO CAKE DELIGHT
+                    </p>
+
+                    <h2>
+                        Delicious cakes for
+                        every celebration.
+                    </h2>
+
+                    <p>
+                        Browse our freshly prepared cakes,
+                        add your favorites to the basket,
+                        and place your order in just a few clicks.
+                    </p>
+
+                    <button
+                        class="primary-btn"
+                        onclick="showSection('cakes')"
+                    >
+                        Browse Cakes
+                    </button>
+
+                </div>
+
+                <div class="hero-image">
+                    🎂
+                </div>
+
+            </div>
+
+
+            <div class="customer-card">
+
+                <p class="section-label">
+                    CUSTOMER INFORMATION
+                </p>
+
+                <h2>Tell us who you are</h2>
+
+                <div class="customer-form">
+
+                    <div class="form-group">
+
+                        <label for="customerName">
+                            Customer Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            placeholder="Enter your name"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="customerEmail">
+                            Customer Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="customerEmail"
+                            placeholder="sridhar@gmail.com"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="customerPhone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            placeholder="9876543210"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="deliveryAddress">
+                            Delivery Address
+                        </label>
+
+                        <input
+                            type="text"
+                            id="deliveryAddress"
+                            placeholder="Hyderabad"
+                        >
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="paymentMethod">
+                            Payment Method
+                        </label>
+
+                        <select
+                            id="paymentMethod"
+                            required
+                        >
+
+                            <option value="COD">
+                                Cash on Delivery
+                            </option>
+
+                            <!-- <option value="ONLINE">
+                                Online Payment
+                            </option> -->
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="home-features">
+
+                <div class="feature-card">
+
+                    <span>🍰</span>
+
+                    <h3>Fresh Cakes</h3>
+
+                    <p>
+                        Delicious cakes prepared for
+                        every occasion.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <span>🛒</span>
+
+                    <h3>Easy Ordering</h3>
+
+                    <p>
+                        Add cakes to your basket and
+                        checkout easily.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <span>🔔</span>
+
+                    <h3>Order Updates</h3>
+
+                    <p>
+                        Receive updates about your
+                        order status.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CAKES
+             ================================================= -->
+
+        <section
+            id="cakes"
+            class="page-section"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="section-label">
+                        OUR CATALOG
+                    </p>
+
+                    <h2>Browse Cakes</h2>
+
+                    <p>
+                        Choose from our available cakes.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="secondary-btn"
+                    onclick="loadCakes()"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div
+                id="cakesContainer"
+                class="cake-grid"
+            >
+
+                <div class="loading">
+                    Loading cakes...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+     BASKET
+     ================================================= -->
+
+    <section
+        id="basket"
+        class="page-section"
+    >
+
+        <div class="section-header">
+
+            <div>
+
+                <p class="section-label">
+                    YOUR CART
+                </p>
+
+                <h2>My Basket 🛒</h2>
+
+                <p>
+                    Review your selected cakes before checkout.
+                </p>
+
+            </div>
+
+
+            <button
+                class="secondary-btn"
+                onclick="loadBasket()"
+            >
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div
+            id="basketContainer"
+            class="basket-container"
+        >
+
+            <div class="empty-state">
+
+                <span>🛒</span>
+
+                <h3>Your basket is empty</h3>
+
+                <p>
+                    Browse our cakes and add your favorites.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="basket-summary">
+
+            <div>
+
+                <span>
+                    Basket Total
+                </span>
+
+                <strong id="basketTotal">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+            <button
+                id="checkoutButton"
+                class="primary-btn"
+            >
+                Checkout & Create Order
+            </button>
+
+        </div>
+
+    </section>
+
+
+        <!-- =================================================
+             ORDERS
+             ================================================= -->
+
+        <section
+            id="orders"
+            class="page-section"
+        >
+
+            <div class="section-header">
+
+                <div>
+
+                    <p class="section-label">
+                        ORDER HISTORY
+                    </p>
+
+                    <h2>My Orders</h2>
+
+                </div>
+
+                <button
+                    class="secondary-btn"
+                    onclick="loadOrders()"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div
+                id="ordersContainer"
+                class="orders-container"
+            >
+
+                <div class="empty-state">
+
+                    <span>📦</span>
+
+                    <h3>No orders loaded</h3>
+
+                    <p>
+                        Enter your email to view your orders.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+             ================================================= -->
+
+        <section
+                id="notifications"
+                class="page-section"
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <p class="section-label">
+                            UPDATES
+                        </p>
+
+                        <h2>Notifications</h2>
+
+                        <p>
+                            Stay updated about your Cake Delight orders.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="secondary-btn"
+                        onclick="loadNotifications()"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="notificationsContainer"
+                    class="notifications-container"
+                >
+
+                    <div class="empty-state">
+
+                        <span>🔔</span>
+
+                        <h3>No notifications loaded</h3>
+
+                        <p>
+                            Enter your email to view notifications.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         TOAST
+         ===================================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    ></div>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

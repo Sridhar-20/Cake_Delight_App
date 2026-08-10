@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const gatewayRoutes =
     require("./src/routes/gatewayRoutes");
@@ -15,11 +16,16 @@ const app = express();
 
 app.use(cors());
 
-app.use(express.json());
 
-app.use(express.urlencoded({
-    extended: true
-}));
+// ==========================================================
+// FRONTEND
+// ==========================================================
+
+app.use(
+    express.static(
+        path.join(__dirname, "public")
+    )
+);
 
 
 // ==========================================================
@@ -29,8 +35,12 @@ app.use(express.urlencoded({
 app.get("/health", (req, res) => {
 
     res.status(200).json({
+
         success: true,
-        message: "API Gateway is running"
+
+        message:
+            "API Gateway is running"
+
     });
 
 });
@@ -40,10 +50,47 @@ app.get("/health", (req, res) => {
 // API GATEWAY ROUTES
 // ==========================================================
 
+// IMPORTANT:
+//
+// Gateway routes MUST be registered before
+// express.json() so that the proxy receives
+// the original request body.
+
 app.use(
     "/api",
     gatewayRoutes
 );
+
+
+// ==========================================================
+// BODY PARSING
+// ==========================================================
+
+app.use(
+    express.json()
+);
+
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+);
+
+
+// ==========================================================
+// FRONTEND FALLBACK
+// ==========================================================
+
+app.get("/", (req, res) => {
+
+    res.sendFile(
+        path.join(
+            __dirname,
+            "../public/index.html"
+        )
+    );
+
+});
 
 
 // ==========================================================
@@ -53,8 +100,12 @@ app.use(
 app.use((req, res) => {
 
     res.status(404).json({
+
         success: false,
-        message: `Gateway route not found: ${req.method} ${req.originalUrl}`
+
+        message:
+            `Gateway route not found: ${req.method} ${req.originalUrl}`
+
     });
 
 });
@@ -75,7 +126,7 @@ app.listen(PORT, () => {
     );
 
     console.log(
-        `Gateway URL: http://localhost:${PORT}`
+        `Cake Delight App: http://localhost:${PORT}`
     );
 
 });
