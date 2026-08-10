@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cake Delight - Ratings</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ======================================================
+         HEADER
+         ====================================================== -->
+
+    <header class="header">
+
+        <div>
+
+            <h1>
+                🎂 Cake Delight
+            </h1>
+
+            <p>
+                Rating & Review Management
+            </p>
+
+        </div>
+
+
+        <div class="service-status">
+
+            <span id="statusDot"></span>
+
+            <span id="serviceStatus">
+                Checking service...
+            </span>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ======================================================
+         MAIN CONTAINER
+         ====================================================== -->
+
+    <main class="container">
+
+
+        <!-- ==================================================
+             CREATE RATING
+             ================================================== -->
+
+        <section class="card">
+
+            <h2>
+                ⭐ Rate a Cake
+            </h2>
+
+
+            <!-- Customer Email -->
+
+            <div class="form-group">
+
+                <label for="customerEmail">
+                    Customer Email
+                </label>
+
+                <input
+                    type="email"
+                    id="customerEmail"
+                    placeholder="sridhar@gmail.com"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- Cake Selection -->
+
+            <div class="form-group">
+
+                <label for="cakeSelect">
+                    Select Cake
+                </label>
+
+                <select id="cakeSelect">
+
+                    <option value="">
+                        Loading cakes...
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Rating -->
+
+            <div class="form-group">
+
+                <label for="rating">
+
+                    Rating
+
+                </label>
+
+
+                <select id="rating">
+
+                    <option value="">
+                        Select Rating
+                    </option>
+
+                    <option value="5">
+                        ⭐⭐⭐⭐⭐ 5 - Excellent
+                    </option>
+
+                    <option value="4">
+                        ⭐⭐⭐⭐ 4 - Very Good
+                    </option>
+
+                    <option value="3">
+                        ⭐⭐⭐ 3 - Good
+                    </option>
+
+                    <option value="2">
+                        ⭐⭐ 2 - Fair
+                    </option>
+
+                    <option value="1">
+                        ⭐ 1 - Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Review -->
+
+            <div class="form-group">
+
+                <label for="review">
+                    Review
+                </label>
+
+                <textarea
+                    id="review"
+                    rows="5"
+                    maxlength="500"
+                    placeholder="Write your review about the cake..."
+                ></textarea>
+
+
+                <div class="character-count">
+
+                    <span id="reviewCount">
+                        0
+                    </span>
+
+                    / 500
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Submit -->
+
+            <button
+                type="button"
+                class="primary-btn"
+                onclick="createRating()"
+            >
+
+                Submit Rating
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             CUSTOMER RATINGS
+             ================================================== -->
+
+        <section class="card">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Customer Ratings
+                    </h2>
+
+                    <p id="resultCount">
+                        0 ratings
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    onclick="loadRatings()"
+                >
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+
+            <!-- Filter -->
+
+            <div class="filter-section">
+
+                <label for="ratingCakeFilter">
+
+                    View Ratings For Cake
+
+                </label>
+
+
+                <div class="inline-input">
+
+                    <select id="ratingCakeFilter">
+
+                        <option value="">
+                            Select a cake
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        type="button"
+                        onclick="loadRatingsByCake()"
+                    >
+
+                        Load Ratings
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        onclick="loadAllRatings()"
+                    >
+
+                        All Ratings
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Ratings -->
+
+            <div id="ratingsContainer">
+
+                <div class="empty-state">
+
+                    Select a cake to view ratings.
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             API RESPONSE
+             ================================================== -->
+
+        <section class="card">
+
+            <h2>
+                API Response
+            </h2>
+
+            <pre id="apiResponse">No API request made yet.</pre>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ======================================================
+         EDIT RATING MODAL
+         ====================================================== -->
+
+    <div
+        id="editRatingModal"
+        class="modal"
+    >
+
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <h2>
+                    Edit Rating
+                </h2>
+
+
+                <button
+                    type="button"
+                    onclick="closeEditModal()"
+                >
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+
+            <!-- Hidden Rating ID -->
+
+            <input
+                type="hidden"
+                id="editRatingId"
+            >
+
+
+
+            <!-- Rating -->
+
+            <div class="form-group">
+
+                <label for="editRating">
+
+                    Rating
+
+                </label>
+
+
+                <select id="editRating">
+
+                    <option value="5">
+                        ⭐⭐⭐⭐⭐ 5 - Excellent
+                    </option>
+
+                    <option value="4">
+                        ⭐⭐⭐⭐ 4 - Very Good
+                    </option>
+
+                    <option value="3">
+                        ⭐⭐⭐ 3 - Good
+                    </option>
+
+                    <option value="2">
+                        ⭐⭐ 2 - Fair
+                    </option>
+
+                    <option value="1">
+                        ⭐ 1 - Poor
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Review -->
+
+            <div class="form-group">
+
+                <label for="editReview">
+
+                    Review
+
+                </label>
+
+
+                <textarea
+                    id="editReview"
+                    rows="5"
+                    maxlength="500"
+                    placeholder="Update your review..."
+                ></textarea>
+
+
+                <div class="character-count">
+
+                    <span id="editReviewCount">
+                        0
+                    </span>
+
+                    / 500
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Update -->
+
+            <button
+                type="button"
+                class="primary-btn"
+                onclick="updateRating()"
+            >
+
+                Update Rating
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ======================================================
+         NOTIFICATION POPUP CONTAINER
+         ====================================================== -->
+
+    <div
+        id="notificationPopupContainer"
+        class="notification-popup-container"
+    ></div>
+
+
+
+    <!-- ======================================================
+         JAVASCRIPT
+         ====================================================== -->
+
+    <script src="app.js"></script>
+
+
+</body>
+
+</html>

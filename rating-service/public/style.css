@@ -1,0 +1,528 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+    color: #222;
+    line-height: 1.5;
+}
+
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
+.header {
+    background: #ffffff;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.header h1 {
+    font-size: 28px;
+}
+
+
+.header p {
+    color: #777;
+    margin-top: 5px;
+}
+
+
+/* ==========================================================
+   SERVICE STATUS
+   ========================================================== */
+
+.service-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+
+#statusDot {
+    width: 10px;
+    height: 10px;
+    background: #999;
+    border-radius: 50%;
+}
+
+
+#serviceStatus {
+    color: #555;
+}
+
+
+/* ==========================================================
+   MAIN CONTAINER
+   ========================================================== */
+
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+
+/* ==========================================================
+   CARD
+   ========================================================== */
+
+.card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+
+.card h2 {
+    margin-bottom: 20px;
+}
+
+
+/* ==========================================================
+   FORM
+   ========================================================== */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+}
+
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}
+
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #555;
+}
+
+
+.character-count {
+    text-align: right;
+    margin-top: 5px;
+    color: #777;
+    font-size: 12px;
+}
+
+
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
+
+button {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #333;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+
+button:hover {
+    opacity: 0.85;
+}
+
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+.primary-btn {
+    margin-top: 5px;
+    padding: 12px 22px;
+    background: #111;
+}
+
+
+/* ==========================================================
+   SECTION HEADER
+   ========================================================== */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.section-header p {
+    color: #777;
+    margin-top: 5px;
+}
+
+
+/* ==========================================================
+   FILTER SECTION
+   ========================================================== */
+
+.filter-section {
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+
+.inline-input {
+    display: flex;
+    gap: 8px;
+}
+
+
+.inline-input select {
+    flex: 1;
+}
+
+
+.inline-input button {
+    white-space: nowrap;
+}
+
+
+/* ==========================================================
+   RATINGS CONTAINER
+   ========================================================== */
+
+#ratingsContainer {
+    margin-top: 15px;
+}
+
+
+/* ==========================================================
+   RATING CARD
+   ========================================================== */
+
+.rating-card {
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 12px;
+}
+
+
+.rating-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+
+.rating-customer {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+
+.rating-date {
+    color: #777;
+    font-size: 12px;
+}
+
+
+.rating-stars {
+    font-size: 18px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+
+.rating-review {
+    margin-top: 12px;
+    color: #555;
+    line-height: 1.6;
+}
+
+
+.rating-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+
+.rating-action-btn {
+    padding: 7px 12px;
+    font-size: 12px;
+}
+
+
+.edit-btn {
+    background: #444;
+}
+
+
+.delete-btn {
+    background: #b42318;
+}
+
+
+/* ==========================================================
+   EMPTY STATE
+   ========================================================== */
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #777;
+    background: #f8f8f8;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+}
+
+
+/* ==========================================================
+   API RESPONSE
+   ========================================================== */
+
+#apiResponse {
+    background: #111;
+    color: #eee;
+    padding: 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    min-height: 100px;
+    white-space: pre-wrap;
+    font-family: Consolas, monospace;
+    font-size: 13px;
+}
+
+
+/* ==========================================================
+   MODAL
+   ========================================================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+
+.modal-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.modal-header h2 {
+    margin-bottom: 0;
+}
+
+
+.modal-header button {
+    background: transparent;
+    color: #333;
+    font-size: 24px;
+    padding: 2px 8px;
+}
+
+
+/* ==========================================================
+   NOTIFICATION POPUP
+   ========================================================== */
+
+.notification-popup-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 360px;
+    max-width: calc(100% - 40px);
+    z-index: 2000;
+}
+
+
+.notification-popup {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+    border-left: 4px solid #333;
+    animation: notificationSlideIn 0.3s ease;
+}
+
+
+.notification-popup.success {
+    border-left-color: #087443;
+}
+
+
+.notification-popup.error {
+    border-left-color: #b42318;
+}
+
+
+.notification-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+
+.notification-popup-header strong {
+    line-height: 1.4;
+}
+
+
+.notification-popup-close {
+    background: transparent;
+    color: #777;
+    padding: 2px 4px;
+    font-size: 16px;
+}
+
+
+.notification-popup-message {
+    color: #555;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+
+@keyframes notificationSlideIn {
+
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 768px) {
+
+    .header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+
+    .container {
+        margin-top: 20px;
+        padding: 0 15px;
+    }
+
+
+    .card {
+        padding: 20px;
+    }
+
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+
+    .inline-input {
+        flex-direction: column;
+    }
+
+
+    .inline-input button {
+        width: 100%;
+    }
+
+
+    .rating-card-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+
+    .rating-actions {
+        flex-direction: column;
+    }
+
+
+    .rating-action-btn {
+        width: 100%;
+    }
+
+
+    .notification-popup-container {
+        top: 15px;
+        right: 15px;
+        width: calc(100% - 30px);
+        max-width: none;
+    }
+
+}
